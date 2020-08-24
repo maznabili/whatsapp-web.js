@@ -70,7 +70,7 @@ declare namespace WAWebJS {
     resetState(): Promise<void>
 
     /** Send a message to a specific chatId */
-    sendMessage(chatId: string, content: MessageContent, options: MessageSendOptions): Promise<Message>
+    sendMessage(chatId: string, content: MessageContent, options?: MessageSendOptions): Promise<Message>
 
     /** Marks the client as online */
     sendPresenceAvailable(): Promise<void>
@@ -83,6 +83,12 @@ declare namespace WAWebJS {
      * @param status New status message
      */
     setStatus(status: string): Promise<void>
+
+    /** 
+     * Sets the current user's display name
+     * @param displayName New display name
+     */
+    setDisplayName(displayName: string): Promise<void>
 
     /** Changes and returns the archive state of the Chat */
     unarchiveChat(chatId: string): Promise<boolean>
@@ -296,7 +302,7 @@ declare namespace WAWebJS {
     /** Returns the Contacts affected by this GroupNotification */
     getRecipients: () => Promise<Contact[]>,
     /** Sends a message to the same chat this GroupNotification was produced in */
-    reply: (content: MessageContent, options: MessageSendOptions) => Promise<Message>,
+    reply: (content: MessageContent, options?: MessageSendOptions) => Promise<Message>,
 
   }
 
@@ -478,7 +484,7 @@ declare namespace WAWebJS {
      * If chatId is specified, it will be sent through the specified Chat.
      * If not, it will send the message in the same Chat as the original message was sent. 
      */
-    reply: (content: MessageContent, chatId: string, options: MessageSendOptions) => Promise<Message>,
+    reply: (content: MessageContent, chatId?: string, options?: MessageSendOptions) => Promise<Message>,
   }
 
   /** ID that represents a message */
@@ -604,6 +610,11 @@ declare namespace WAWebJS {
 
     /** Returns the contact's profile picture URL, if privacy settings allow it */
     getProfilePicUrl: () => Promise<string>,
+
+    /** Returns the Chat that corresponds to this Contact.  
+     * Will return null when getting chat for currently logged in user.
+     */
+    getChat: () => Promise<Chat>,
   }
 
   export interface ContactId {
@@ -653,7 +664,7 @@ declare namespace WAWebJS {
     isReadOnly: boolean,
     /** Title of the chat */
     name: string,
-    /** Unix timestamp for when the chat was created */
+    /** Unix timestamp for when the last activity occurred */
     timestamp: number,
     /** Amount of messages unread */
     unreadCount: number,
@@ -682,6 +693,8 @@ declare namespace WAWebJS {
     unarchive: () => Promise<void>,
     /** Unmutes this chat */
     unmute: () => Promise<void>,
+    /** Returns the Contact that corresponds to this Chat. */
+    getContact: () => Promise<Contact>,
   }
 
   export interface MessageSearchOptions {
