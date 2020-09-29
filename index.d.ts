@@ -485,6 +485,10 @@ declare namespace WAWebJS {
      * If not, it will send the message in the same Chat as the original message was sent. 
      */
     reply: (content: MessageContent, chatId?: string, options?: MessageSendOptions) => Promise<Message>,
+    /** 
+     * Forwards this message to another chat
+     */
+    forward: (chat: Chat | string) => Promise<void>,
   }
 
   /** ID that represents a message */
@@ -662,6 +666,10 @@ declare namespace WAWebJS {
     isGroup: boolean,
     /** Indicates if the Chat is readonly */
     isReadOnly: boolean,
+    /** Indicates if the Chat is muted */
+    isMuted: boolean,
+    /** Unix timestamp for when the mute expires */
+    muteExpiration: number,
     /** Title of the chat */
     name: string,
     /** Unix timestamp for when the last activity occurred */
